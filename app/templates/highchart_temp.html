@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+        .chart{
+            border: 1px solid gray;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-6 col-lg-12">
+
+                <form id="gateway_form" class="no-margin wizard-big wizard clearfix"  method="post" action="{% url 'index' %}"  novalidate="novalidate">
+                        {% csrf_token %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Enter a value</label>
+                                        <input type="text" class="form-control input-sm" name="temp_value"
+                                               required>
+                                    </div><!-- /form-group -->
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                            <div class="pull-left text-left">
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                            </div>
+                        </div>
+                    <hr>
+                    </form>
+
+        </div>
+
+        <div class="col-sm-3 col-md-6 col-lg-12">
+            <div class="chart" id="container" style="min-width: 310px; height: 600px; margin: 0 auto"></div>
+{#            <div class="chart" id="container"></div>#}
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+<script>
+    Highcharts.chart('container', {
+        chart: {
+                zoomType: 'xy'
+            },
+
+    title: {
+        text: 'Temperature Chart'
+    },
+
+    xAxis: {
+        {#tickInterval: 1#}
+        categories: {{ categories|safe }}
+    },
+
+    {#yAxis: {#}
+    {#    type: 'temp',#}
+    {#    minorTickInterval: 0.1#}
+    {#{,#}
+
+    tooltip: {
+        headerFormat: '<b>{series.name}</b><br />'
+    },
+
+    series: [{
+        name: 'Temperature',
+        {#data: [1, 2, 4, 2, 10, 20, 64, 32, 128, 200],#}
+        data: {{ series }},
+        {#pointStart: 1#}
+    }]
+});
+</script>
+
+</html>
